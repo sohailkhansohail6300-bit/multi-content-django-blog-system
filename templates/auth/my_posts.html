@@ -1,0 +1,115 @@
+{% extends "user_profile_header_footer.html" %}
+{% block content %}
+
+    <!-- Main Content -->
+    <main class="flex-1 lg:ml-64 p-4 md:p-8 lg:p-10 pt-20 lg:pt-10">
+        
+         
+
+     <!-- Header Section -->
+    <header class="mb-10 text-center">
+        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-2 inline-block"></span>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-tight">My Posts</h1>
+    </header>
+
+    <!-- Card Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+
+        <!-- Card 1 -->
+            {% for i in post %}
+        <article class="group cursor-pointer flex flex-col h-full">
+            <div class="relative aspect-video overflow-hidden rounded-lg mb-3 shadow-sm">
+                {% if i.image %}
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                     src="{{ i.image.url }}" 
+                     alt="{{ i.title }}">
+                {% endif %}
+            </div>
+            <div class="px-1 flex flex-col flex-grow">
+                <span class="text-[9px] font-bold uppercase tracking-wider text-outline mb-1 block">{{ i.category }}</span>
+                <h3 class="text-sm md:text-base font-bold leading-snug group-hover:text-primary transition-colors">
+                    {{ i.title }}
+                </h3>
+                <p class="text-[11px] text-on-surface-variant mt-2 line-clamp-2 leading-relaxed mb-4">
+                    {{ i.description }}
+                </p>
+                
+                <!-- View More Button for Card -->
+                <div class="mt-auto gap-5 flex items-center">
+                    <a href="{% url 'detail_page' i.category i.id %}" class="gap-1 text-[10px] font-black uppercase tracking-widest text-primary hover:gap-2 transition-all hover:scale-105">
+                        View
+                        
+                    </a>
+                    <a href="{% url 'update_post' i.category i.id %}" class="gap-1 text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-blue-600 hover:scale-105">
+                        update
+                        
+                    </a>
+                    <a href="{% url 'delete_post' i.category i.id %}" class="gap-1 text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-600 hover:scale-105">
+                        delete
+                        
+                    </a>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+ 
+
+    </div>
+
+{% if posts.has_other_pages %}
+<div class="flex justify-center mt-12 sm:mt-16 lg:mt-20">
+    <nav class="flex items-center gap-2 px-2 py-1 bg-white rounded-full border border-gray-200 shadow-sm" aria-label="Pagination">
+        
+        <!-- Previous Page -->
+        {% if posts.has_previous %}
+        <a href="?page={{ posts.previous_page_number }}" class="flex items-center text-gray-500 hover:text-indigo-600 transition-colors group px-2">
+            <span class="text-sm font-medium group-hover:-translate-x-0.5 transition-transform">← Previous</span>
+        </a>
+        {% else %}
+        <span class="flex items-center text-gray-300 px-2 cursor-not-allowed">
+            <span class="text-sm font-medium">← Previous</span>
+        </span>
+        {% endif %}
+
+        <!-- Page Numbers -->
+        <div class="flex items-center gap-1 border-x border-gray-100 px-3">
+            {% for i in posts.paginator.page_range %}
+                {% if posts.number == i %}
+                    <!-- Active Page -->
+                    <span class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-600 text-white text-xs font-bold shadow-sm">
+                        {{ i }}
+                    </span>
+                {% elif i > posts.number|add:'-3' and i < posts.number|add:'3' %}
+                    <!-- Nearby Pages -->
+                    <a href="?page={{ i }}" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-700 text-xs transition-colors">
+                        {{ i }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Next Page -->
+        {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}" class="flex items-center text-gray-700 hover:text-indigo-600 transition-colors group px-2">
+            <span class="text-sm font-medium group-hover:translate-x-0.5 transition-transform">Next →</span>
+        </a>
+        {% else %}
+        <span class="flex items-center text-gray-300 px-2 cursor-not-allowed">
+            <span class="text-sm font-medium">Next →</span>
+        </span>
+        {% endif %}
+        
+    </nav>
+</div>
+{% endif %}
+
+
+
+        
+
+    </main>
+    
+</div>
+
+{% endblock content %}
+

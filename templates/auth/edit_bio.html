@@ -1,0 +1,63 @@
+{% extends "user_profile_header_footer.html" %}
+{% block content %}
+
+    <!-- Main Content -->
+    <main class="flex-1 lg:ml-64 p-4 md:p-8 lg:p-10 pt-20 lg:pt-10">
+        
+         
+
+     <!-- SEPARATE BIO SECTION -->
+<div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-10">
+    <div class="p-6 md:p-8">
+        <h4 class="text-lg font-bold text-gray-900 mb-4">About Me</h4>
+
+        <form method="POST" action="{% url 'edit_bio' %}" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="relative group">
+                <!-- The Textarea -->
+                <textarea 
+                    name="bio" 
+                    rows="5" 
+                    maxlength="200"
+                    placeholder="Tell your story..."
+                    class="peer w-full p-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-gray-700 leading-relaxed
+                           placeholder-transparent outline-none transition-all duration-300
+                           focus:bg-white focus:border-primary focus:ring-4 focus:ring-blue-50 focus:shadow-xl
+                           resize-none shadow-inner"
+                >{{ request.user.profile.bio }}</textarea>
+
+                <!-- Floating Label (CSS Only) -->
+                <label class="absolute left-5 -top-2.5 bg-white px-2 text-xs font-bold text-primary transition-all
+                              peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent
+                              peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:bg-white
+                              pointer-events-none">
+                    Write your bio
+                </label>
+
+                <!-- Decorative Bottom Bar -->
+                <div class="absolute bottom-0 left-0 h-1 w-0 bg-primary transition-all duration-500 group-focus-within:w-full rounded-b-2xl"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center justify-between mt-4">
+                <span class="text-xs text-gray-400 font-medium italic">Max 200 characters</span>
+                <button type="submit" class="flex items-center gap-2 px-8 py-3 bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-900/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Save Bio
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+        
+
+    </main>
+    
+</div>
+
+{% endblock content %}
+
