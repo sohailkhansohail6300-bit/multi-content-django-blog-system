@@ -1,2 +1,2 @@
-# django-multi-blog-platform
+# multi-content-django-blog-system
 django multi category content platform
