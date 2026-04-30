@@ -288,8 +288,5 @@ This project demonstrates a production-style Django application with real-world 
 Muhammad Sohail
 Django Developer
 
----
-
-
 * Or help you **deploy this project live (PythonAnywhere / Render)**
 
