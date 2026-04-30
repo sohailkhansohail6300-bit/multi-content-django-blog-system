@@ -145,12 +145,19 @@ The comment system supports multiple content types using relational fields:
 ---
 
 ## Application Flow
+*
+* <img width="1359" height="684" alt="WhatsApp Image 2026-04-29 at 11 05 23 PM" src="https://github.com/user-attachments/assets/7470a0d6-e58c-4a17-89b4-c867228a4d95" />
+<img width="282" height="663" alt="WhatsApp Image 2026-04-29 at 11 03 58 PM" src="https://github.com/user-attachments/assets/879292c3-c25c-4c31-bbf3-365f5545bbcb" />
 
 ### Home Page
 
 * Displays latest posts from all categories
 * Search functionality integrated
 * Quick preview of recent content
+
+
+
+
 
 ### Detail Page
 
