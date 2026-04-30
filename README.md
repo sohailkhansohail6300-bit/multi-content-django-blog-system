@@ -145,9 +145,13 @@ The comment system supports multiple content types using relational fields:
 ---
 
 ## Application Flow
-*
 * <img width="1359" height="684" alt="WhatsApp Image 2026-04-29 at 11 05 23 PM" src="https://github.com/user-attachments/assets/7470a0d6-e58c-4a17-89b4-c867228a4d95" />
-<img width="282" height="663" alt="WhatsApp Image 2026-04-29 at 11 03 58 PM" src="https://github.com/user-attachments/assets/879292c3-c25c-4c31-bbf3-365f5545bbcb" />
+<img width="282" height="663" alt="WhatsApp Image 2026-04-29 at 11 03 58 PM" src="https://github.com/user-attachments/assets/879292c3-c25c-4c31-bbf3-365f5545bbcb" /><img width="1365" height="730" alt="WhatsApp Image 2026-04-29 at 11 07 13 PM" src="https://github.com/user-attachments/assets/761fc97b-8f59-4160-abf4-4ca5e9140370" /><img width="1360" height="722" alt="WhatsApp Image 2026-04-29 at 11 11 03 PM" src="https://github.com/user-attachments/assets/9822be86-ecc7-4446-8b1a-532d194abf48" /><img width="1058" height="688" alt="WhatsApp Image 2026-04-29 at 11 09 48 PM" src="https://github.com/user-attachments/assets/a962f06a-ba86-412c-823b-ab7a17755f94" />
+
+
+
+
+
 
 ### Home Page
 
