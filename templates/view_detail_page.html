@@ -1,4 +1,10 @@
 {% extends "index.html" %}
+
+{% block seo %}
+    <title>{{ obj.title }}</title>
+    <meta name="description" content="{{ obj.description|truncatewords:20 }}">
+    <meta name="keywords" content="{{ obj.image.url }}">
+{% endblock seo %}
 {% block base %}
 <main class="pt-20">
   <!-- Hero Section -->
