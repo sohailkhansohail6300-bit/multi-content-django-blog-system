@@ -6,6 +6,7 @@ from .models import Profile
 from blog.models import Documentry,Food,Travel,News,Story
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def signup_page(request):
@@ -46,86 +47,104 @@ def login_page(request):
         else:
             return render(request, 'auth/login.html', {'error': 'Invalid username or password'})
     return render(request, 'auth/login.html')
-
+@login_required
 def profile_page(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     
     
     return render(request, 'auth/user_dasboard.html',)
 def logout_page(request):
     logout(request)
     return redirect('login')
+@login_required
 def update_profile(request):
-    if request.method == 'POST':
-        a=request.POST
-        name=a.get('name')
-        email=a.get('email')
-        image=request.FILES.get('image')
-        
-        user = request.user
-        user.username = name
-        user.email = email
-        user.save()
-        
-        profile = user.profile
-        if image:
-            profile.image = image
-            profile.save()
-        
-        return redirect('profile')
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if request.method == 'POST':
+            a=request.POST
+            name=a.get('name')
+            email=a.get('email')
+            image=request.FILES.get('image')
+            
+            user = request.user
+            user.username = name
+            user.email = email
+            user.save()
+            
+            profile = user.profile
+            if image:
+                profile.image = image
+                profile.save()
+            
+            return redirect('profile')
     return render(request, 'auth/signup.html')
-
+@login_required
 def Edit_bio(request):
-    if request.method == 'POST':
-        bio_text = request.POST.get('bio')
-        profile, created = Profile.objects.get_or_create(user=request.user)
-        profile.bio = bio_text
-        profile.save()
-        
-        return redirect('profile')
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if request.method == 'POST':
+            bio_text = request.POST.get('bio')
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            profile.bio = bio_text
+            profile.save()
+            
+            return redirect('profile')
     return render(request,'auth/edit_bio.html')
+@login_required
 def My_posts(request):
-    docomentry = Documentry.objects.filter(User_relation=request.user)
-    food = Food.objects.filter(User_relation=request.user)
-    travel = Travel.objects.filter(User_relation=request.user)
-    news = News.objects.filter(User_relation=request.user)
-    story = Story.objects.filter(User_relation=request.user)
-    posts=sorted(chain(docomentry , food , travel , news , story), key=lambda x: x.created_at, reverse=True)
-    paginator = Paginator(posts, 6)
-    page_number = request.GET.get('page')
-    posts = paginator.get_page(page_number)
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        docomentry = Documentry.objects.filter(User_relation=request.user)
+        food = Food.objects.filter(User_relation=request.user)
+        travel = Travel.objects.filter(User_relation=request.user)
+        news = News.objects.filter(User_relation=request.user)
+        story = Story.objects.filter(User_relation=request.user)
+        posts=sorted(chain(docomentry , food , travel , news , story), key=lambda x: x.created_at, reverse=True)
+        paginator = Paginator(posts, 6)
+        page_number = request.GET.get('page')
+        posts = paginator.get_page(page_number)
     return render(request,'auth/my_posts.html', {'posts': posts,'post':posts})
-
+@login_required
 def add_post(request):
     error=''
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        category = request.POST.get('category')
-        description = request.POST.get('description')
-        image = request.FILES.get('image')
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    else:
         
-        if category == 'Documentry':
-            Documentry.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
-        elif category == 'Story':
-            Story.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
-        elif category == 'Food':
-            Food.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
-        elif category == 'Travel':
-            Travel.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
-        elif category == 'News':
-            News.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
-        elif not title:
-            error='Please enter a title'
-        elif not category:
-            error='Please select a category'
-        elif not description:
-            error='Please enter a description'
-        elif not image:
-            error='Please upload an image'
-        else:
-            error='Your post has been published'
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            category = request.POST.get('category')
+            description = request.POST.get('description')
+            image = request.FILES.get('image')
             
-        
-        return redirect('my_posts')
+            if category == 'Documentry':
+                Documentry.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
+            elif category == 'Story':
+                Story.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
+            elif category == 'Food':
+                Food.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
+            elif category == 'Travel':
+                Travel.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
+            elif category == 'News':
+                News.objects.create(title=title, category=category, description=description, image=image, User_relation=request.user)
+            elif not title:
+                error='Please enter a title'
+            elif not category:
+                error='Please select a category'
+            elif not description:
+                error='Please enter a description'
+            elif not image:
+                error='Please upload an image'
+            else:
+                error='Your post has been published'
+                
+            
+            return redirect('my_posts')
     return render(request,'auth/add_posts.html', {'error': error})
 
 def update_post(request, category, id):
